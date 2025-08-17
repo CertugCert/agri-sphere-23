@@ -12,6 +12,11 @@ import supportRoutes from './routes/support.js';
 import adminRoutes from './routes/admin.js';
 import baseRoutes from './routes/base.js';
 import soloRoutes from './routes/solo.js';
+import adminAuthRoutes from './routes/admin.auth.js';
+import adminTenantsRoutes from './routes/admin.tenants.js';
+import tenantAuthRoutes from './routes/tenant.auth.js';
+import { requireMaster } from './middlewares/requireMaster.js';
+import { attachTenant } from './middlewares/attachTenant.js';
 const app = express();
 
 const logger = pino({ level: process.env.NODE_ENV === 'development' ? 'debug' : 'info' });
@@ -34,6 +39,14 @@ app.get('/api/health', async (_req, res) => {
   }
 });
 
+// Master admin routes
+app.use('/api/admin/auth', adminAuthRoutes);
+app.use('/api/admin', requireMaster, adminTenantsRoutes);
+
+// Tenant routes
+app.use('/api/t/:slug', attachTenant, tenantAuthRoutes);
+
+// Legacy routes (keep for backward compatibility)
 app.use('/api/auth', authRoutes);
 app.use('/api', meRoutes);
 app.use('/api/suporte', supportRoutes);
