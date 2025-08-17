@@ -51,9 +51,10 @@ export async function provisionTenant({ name, slug, initialFarmName, adminEmail,
   });
 
   try {
-    // Create new database
-    await masterSequelize.query(`CREATE DATABASE "${dbName}" WITH TEMPLATE template0 ENCODING 'UTF8'`);
-    console.log(`Created database: ${dbName}`);
+    // Create new database (sanitize name)
+    const sanitizedDbName = dbName.replace(/[^a-zA-Z0-9_]/g, '');
+    await masterSequelize.query(`CREATE DATABASE "${sanitizedDbName}" WITH TEMPLATE template0 ENCODING 'UTF8'`);
+    console.log(`Created database: ${sanitizedDbName}`);
   } catch (error) {
     if (error.message.includes('already exists')) {
       throw new Error(`Database '${dbName}' already exists`);

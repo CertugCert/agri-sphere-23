@@ -46,7 +46,7 @@ app.use('/api/admin', requireMaster, adminTenantsRoutes);
 // Tenant routes
 app.use('/api/t/:slug', attachTenant, tenantAuthRoutes);
 
-// Legacy routes (keep for backward compatibility)
+// Legacy routes (for backward compatibility)
 app.use('/api/auth', authRoutes);
 app.use('/api', meRoutes);
 app.use('/api/suporte', supportRoutes);

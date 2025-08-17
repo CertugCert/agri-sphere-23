@@ -8,18 +8,6 @@ module.exports = {
     const created = { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') };
     const updated = { type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.literal('CURRENT_TIMESTAMP') };
 
-    // Users table
-    await queryInterface.createTable('usuarios', {
-      id: uuid,
-      nome: { type: Sequelize.STRING, allowNull: false },
-      email: { type: Sequelize.STRING, allowNull: false, unique: true },
-      senha_hash: { type: Sequelize.STRING, allowNull: false },
-      ativo: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
-      empresa_id: uuidFk,
-      created_at: created,
-      updated_at: updated
-    });
-
     // Companies/Farms table
     await queryInterface.createTable('empresas', {
       id: uuid,
@@ -28,6 +16,18 @@ module.exports = {
       telefone: { type: Sequelize.STRING, allowNull: true },
       email: { type: Sequelize.STRING, allowNull: true },
       endereco: { type: Sequelize.TEXT, allowNull: true },
+      created_at: created,
+      updated_at: updated
+    });
+
+    // Users table
+    await queryInterface.createTable('usuarios', {
+      id: uuid,
+      nome: { type: Sequelize.STRING, allowNull: false },
+      email: { type: Sequelize.STRING, allowNull: false, unique: true },
+      senha_hash: { type: Sequelize.STRING, allowNull: false },
+      ativo: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
+      empresa_id: uuidFk,
       created_at: created,
       updated_at: updated
     });
@@ -64,7 +64,7 @@ module.exports = {
       created_at: created
     });
 
-    // Modules table
+    // Modules table (local copy for tenant)
     await queryInterface.createTable('modules', {
       id: uuid,
       key: { type: Sequelize.STRING, allowNull: false, unique: true },
@@ -188,7 +188,7 @@ module.exports = {
       onDelete: 'CASCADE'
     });
 
-    // Add unique constraint for user_roles
+    // Add unique constraints
     await queryInterface.addIndex('user_roles', ['user_id', 'role_id'], { unique: true });
     await queryInterface.addIndex('role_permissions', ['role_id', 'permission_id'], { unique: true });
   },

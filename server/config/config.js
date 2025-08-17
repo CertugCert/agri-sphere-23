@@ -1,28 +1,12 @@
 import 'dotenv/config';
 
-export default {
-  development: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres',
-    logging: false,
-  },
-  test: {
-    username: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME + '_test',
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres',
-    logging: false,
-  },
-  production: {
-    use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres',
-    dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
-    logging: false,
-  }
-};
+// ESM shim for CJS config
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const config = await import(path.resolve(__dirname, 'config.cjs'));
+
+export default config.default;

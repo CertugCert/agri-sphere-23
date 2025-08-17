@@ -112,7 +112,7 @@ module.exports = {
     await queryInterface.addIndex('org_modules', ['module_key']);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('org_modules');
     await queryInterface.dropTable('orgs');
     await queryInterface.dropTable('master_users');

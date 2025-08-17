@@ -155,7 +155,7 @@ module.exports = {
       ]);
     }
 
-    // Create modules (disabled by default - enabled from master)
+    // Create modules (local copy - controlled by master)
     const modules = [
       { key: 'solo_adubacao', name: 'Solo e Adubação', description: 'Análises de solo e recomendações' },
       { key: 'suporte', name: 'Suporte', description: 'Sistema de tickets de suporte' },
